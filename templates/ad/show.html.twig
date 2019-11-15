@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ ad.title }}
+{% endblock %}
+
+{% block body %}
+
+    <div class="ad-title img-fluid"
+         style="background-image: url({{ ad.coverImage }});background-repeat: no-repeat">
+        <div class="container">
+            <h1>{{ ad.title }}</h1>
+            <p>{{ ad.introduction }}</p>
+            <p class="h2">
+                <strong>{{ ad.rooms }} chambres </strong> pour <strong>{{ ad.price }} &euro;</strong> par nuit.
+            </p>
+            <a href="#" class="btn btn-primary">Réserver</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mb-3">
+                {{ ad.content|raw }}
+            </div>
+            <div class="col">
+                <div class="row">
+                    <div class="col-4">
+                        <img src="http://placehold.it/64x64" alt="" alt="Avatar de xx">
+                    </div>
+                    <div class="col-8">
+                        <h3> Joseph</h3>
+                        <span class="badge badge-primary"> 3 annonces</span>
+                    </div>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem consectetur cum dolores doloribus
+                        eveniet expedita odit provident quam suscipit, vel.</p>
+                    <p>A aliquam debitis dolore eos exercitationem ipsam molestiae nemo, non nulla odit quae quasi qui
+                        quibusdam similique tempora temporibus totam.</p>
+                    <p>Aspernatur enim modi provident temporibus velit. Consectetur in iure labore nobis, omnis quos?
+                        Aliquid cum fugit magnam quos. Alias, quo.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
