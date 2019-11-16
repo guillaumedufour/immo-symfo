@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -52,6 +54,16 @@ class Ad
      * @ORM\Column(type="integer")
      */
     private $rooms;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="ad", orphanRemoval=true)
+     */
+    private $images;
+
+    public function __construct()
+    {
+        $this->images = new ArrayCollection();
+    }
 
 
     /**
@@ -152,6 +164,37 @@ class Ad
     public function setRooms(int $rooms): self
     {
         $this->rooms = $rooms;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Image[]
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImages(Image $images): self
+    {
+        if (!$this->images->contains($images)) {
+            $this->images[] = $images;
+            $images->setAd($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImages(Image $images): self
+    {
+        if ($this->images->contains($images)) {
+            $this->images->removeElement($images);
+            // set the owning side to null (unless already changed)
+            if ($images->getAd() === $this) {
+                $images->setAd(null);
+            }
+        }
 
         return $this;
     }

@@ -1,19 +1,11 @@
-# Cache and logs (Symfony2)
-/app/cache/*
-/app/logs/*
-!app/cache/.gitkeep
-!app/logs/.gitkeep
 
 # Email spool folder
 /app/spool/*
 
 # Cache, session files and logs (Symfony3)
 /var/cache/*
-/var/logs/*
+/var/log/*
 /var/sessions/*
-!var/cache/.gitkeep
-!var/logs/.gitkeep
-!var/sessions/.gitkeep
 
 # Parameters
 /app/config/parameters.yml
@@ -48,7 +40,9 @@
 /.web-server-pid
 
 /.idea/*
-/var/*
 /.env
 /.env.test
 
+/var/
+!/var/log/
+!/var/log/dev.log
