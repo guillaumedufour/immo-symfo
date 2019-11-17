@@ -2,19 +2,19 @@
 
 {% block title %}Création d'une Annonce{% endblock %}
 
+
 {% block body %}
     <div class="container">
         <h1>Créer une nouvelle annonce</h1>
 
-        {#       {{ form_start(form) }}
+        {{ form_start(form) }}
 
-               {{ form_widget(form) }}
+        {{ form_widget(form) }}
 
-               {{ form_end(form) }}
 
-        #}
+        <button type="submit" class="btn btn-primary">Créer la nouvelle annonce</button>
 
-        {{ form(form) }}
+        {{ form_end(form) }} {# add automatically missing fields #}
 
     </div>
 {% endblock %}

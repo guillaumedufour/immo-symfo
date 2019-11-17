@@ -3,9 +3,11 @@
 /app/spool/*
 
 # Cache, session files and logs (Symfony3)
-/var/cache/*
-/var/log/*
-/var/sessions/*
+/var/cache/
+/var/log/
+/var/sessions/
+
+/vendor
 
 # Parameters
 /app/config/parameters.yml

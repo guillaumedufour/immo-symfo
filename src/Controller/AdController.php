@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Ad;
+use App\Form\AnnonceType;
 use App\Repository\AdRepository;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -30,23 +33,25 @@ class AdController extends AbstractController
      * @Route("/ads/new",name="ads_create")
      * @return Response
      */
-    public function create()
+    public function create(Request $request, ObjectManager $manager)
     {
         $ad = new Ad();
-        $form = $this->createFormBuilder($ad)
-            ->add('title')
-            ->add('introduction')
-            ->add('content')
-            ->add('rooms')
-            ->add('price')
-            ->add('coverImage')
-            ->add('save',SubmitType::class,[
-                'label'=>'créer la nouvelle annonce',
-                'attr'=>[
-                    'class'=>'btn btn-primary'
-                ]
-            ])
-            ->getForm();
+
+        $form = $this->createForm(AnnonceType::class, $ad);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //on commente car on met directement le manager en params de la fonction
+            //$manager = $this->getDoctrine()->getManager();
+
+            $manager->persist($ad);
+            $manager->flush();
+
+            $this->addFlash('success',"l'annonce <strong> {$ad->getTitle()}</strong> a bien été enregistrée");
+
+            return $this->redirectToRoute('ads_show', ['slug' => $ad->getSlug()]);
+        }
 
         return $this->render('ad/new.html.twig', [
             'form' => $form->createView()
