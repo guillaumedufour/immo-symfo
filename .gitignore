@@ -43,6 +43,3 @@
 /.env
 /.env.test
 
-/var/
-!/var/log/
-!/var/log/dev.log
