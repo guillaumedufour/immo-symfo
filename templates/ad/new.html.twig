@@ -2,7 +2,7 @@
 
 {% block title %}Création d'une Annonce{% endblock %}
 
-
+{% form_theme form _self %}
 {% block body %}
     <div class="container">
         <h1>Créer une nouvelle annonce</h1>
@@ -11,10 +11,71 @@
 
         {{ form_widget(form) }}
 
-
         <button type="submit" class="btn btn-primary">Créer la nouvelle annonce</button>
 
         {{ form_end(form) }} {# add automatically missing fields #}
 
     </div>
+{% endblock %}
+
+{% block _annonce_images_widget %}
+    <p> Ajoutez vos images</p>
+    {{ form_widget(form) }}
+    <div class="form-group">
+        <button type="button" id="add-image" class="btn btn-primary">Ajouter une image</button>
+    </div>
+{% endblock %}
+
+{% block _annonce_images_entry_row %}
+    {{ form_widget(form) }}
+{% endblock %}
+
+{% block _annonce_images_entry_widget %}
+    <div class="form-group" id="block_{{ id }}">
+        <div class="row">
+            <div class="col-10">
+                <div class="row">
+                    <div class="col">
+                        {{ form_widget(form.url) }}
+                    </div>
+                    <div class="col">
+                        {{ form_widget(form.caption) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <button type="button" class="btn btn-danger" data-action="delete" data-target="#block_{{ id }}">
+                    X
+                </button>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+
+        handleDeleteButtons();
+
+        $('#add-image').click(function (e) {
+            {# we count fields to know id of the futur field #}
+            const index = $('#annonce_images div.form-group').length;
+
+            {# we get the prototype which contains form html and replace name by the index #}
+            const tmpl = $('#annonce_images').data('prototype').replace(/__name__/g, index);
+
+            {# code injection #}
+            $('#annonce_images').append(tmpl);
+
+            handleDeleteButtons();
+        });
+
+        function handleDeleteButtons() {
+            $('button[data-action="delete"]').click(function () {
+                const target = this.dataset.target;
+                $(target).remove();
+            });
+        }
+    </script>
 {% endblock %}

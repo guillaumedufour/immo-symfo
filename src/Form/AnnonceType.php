@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Ad;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -41,7 +42,10 @@ class AnnonceType extends AbstractType
             ->add('content', TextareaType::class, $this->getConfiguration("Description detaillée", "Tapez une description qui donne envie de venir chez vous"))
             ->add('rooms', IntegerType::class, $this->getConfiguration("Nombre de chambres", "Le nombre de chambres disponibles"))
             ->add('price', MoneyType::class, $this->getConfiguration('Prix / Nuit', 'Indiquez le prix pour une nuit'))
-        ;
+            ->add('images', CollectionType::class, [
+                'entry_type' => ImageType::class,
+                'allow_add' => true
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
