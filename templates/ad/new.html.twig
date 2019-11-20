@@ -20,7 +20,11 @@
 
 {% block _annonce_images_widget %}
     <p> Ajoutez vos images</p>
+
     {{ form_widget(form) }}
+
+    <input type="hidden" id="widgets-counter" value="0">
+
     <div class="form-group">
         <button type="button" id="add-image" class="btn btn-primary">Ajouter une image</button>
     </div>
@@ -59,14 +63,14 @@
         handleDeleteButtons();
 
         $('#add-image').click(function (e) {
-            {# we count fields to know id of the futur field #}
-            const index = $('#annonce_images div.form-group').length;
+            const index = +$('#widgets-counter').val();
 
             {# we get the prototype which contains form html and replace name by the index #}
             const tmpl = $('#annonce_images').data('prototype').replace(/__name__/g, index);
 
             {# code injection #}
             $('#annonce_images').append(tmpl);
+            $('#widgets-counter').val(index + 1);
 
             handleDeleteButtons();
         });
@@ -75,6 +79,8 @@
             $('button[data-action="delete"]').click(function () {
                 const target = this.dataset.target;
                 $(target).remove();
+
+
             });
         }
     </script>

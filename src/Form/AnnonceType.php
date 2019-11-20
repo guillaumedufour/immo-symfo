@@ -18,25 +18,26 @@ class AnnonceType extends AbstractType
 
     /**
      * get the basic form config
-     * @param $label
-     * @param $placeholder
+     * @param string $label
+     * @param string $placeholder
+     * @param array options
      * @return array
      */
-    private function getConfiguration($label, $placeholder)
+    private function getConfiguration($label, $placeholder, $options = [])
     {
-        return [
+        return array_merge([
             'label' => $label,
             'attr' => [
                 'placeholder' => $placeholder
             ]
-        ];
+        ], $options);
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('title', TextType::class, $this->getConfiguration("Titre", "Ecrivez un titre pour votre annonce"))
-            ->add('slug', TextType::class, $this->getConfiguration("Url", 'Adresse de votre annonce (automatique si vide)'))
+            ->add('slug', TextType::class, $this->getConfiguration("Url", 'Adresse de votre annonce (automatique si vide)', ['required' => false]))
             ->add('coverImage', UrlType::class, $this->getConfiguration("Url de l'image principale", "Donnez l'addresse d'une image qui donne envie"))
             ->add('introduction', TextType::class, $this->getConfiguration('Introduction', 'Donnez une description globable de l\'annonce'))
             ->add('content', TextareaType::class, $this->getConfiguration("Description detaillée", "Tapez une description qui donne envie de venir chez vous"))

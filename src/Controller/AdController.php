@@ -46,10 +46,15 @@ class AdController extends AbstractController
             //on commente car on met directement le manager en params de la fonction
             //$manager = $this->getDoctrine()->getManager();
 
+            foreach ($ad->getImages() as $image) {
+                $image->setAd($ad);
+                $manager->persist($image);
+            }
+
             $manager->persist($ad);
             $manager->flush();
 
-            $this->addFlash('success',"l'annonce <strong> {$ad->getTitle()}</strong> a bien été enregistrée");
+            $this->addFlash('success', "l'annonce <strong> {$ad->getTitle()}</strong> a bien été enregistrée");
 
             return $this->redirectToRoute('ads_show', ['slug' => $ad->getSlug()]);
         }

@@ -6,6 +6,7 @@ use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AdRepository")
@@ -22,6 +23,7 @@ class Ad
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=10, max=255, minMessage="Le titre doit faire plus de 10 caractères.")
      */
     private $title;
 
@@ -37,11 +39,13 @@ class Ad
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min=20, minMessage="L'introduction doit faire plus de 20 caractères.")
      */
     private $introduction;
 
     /**
      * @ORM\Column(type="text")
+     * * @Assert\Length(min=100, minMessage="L'annonce doit faire plus de 100 caractères.")
      */
     private $content;
 
@@ -72,8 +76,9 @@ class Ad
      * @ORM\PreUpdate()
      * @return void
      */
-    public function initializeSlug(){
-        if(empty($this->slug)){
+    public function initializeSlug()
+    {
+        if (empty($this->slug)) {
             $slugify = new Slugify();
             $this->slug = $slugify->slugify($this->title);
         }
