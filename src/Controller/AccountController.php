@@ -119,10 +119,20 @@ class AccountController extends AbstractController
                 $this->addFlash('success', 'Votre mot de passe a bien été modifié');
                 return $this->redirectToRoute('home');
             }
-
-
         }
 
         return $this->render('account/password.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * Display connected user page
+     * @Route("/account",name="account_index")
+     * @return Response
+     */
+    public function myAccount()
+    {
+        return $this->render('user/index.html.twig', [
+            'user' => $this->getUser()
+        ]);
     }
 }
