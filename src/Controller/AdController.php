@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Ad;
 use App\Form\AnnonceType;
 use App\Repository\AdRepository;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;

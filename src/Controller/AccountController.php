@@ -7,7 +7,6 @@ use App\Entity\User;
 use App\Form\AccountType;
 use App\Form\PasswordUpdateType;
 use App\Form\RegistrationType;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
