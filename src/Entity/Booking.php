@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BookingRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Booking
 {
@@ -140,5 +141,26 @@ class Booking
         $this->comment = $comment;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function prePersist()
+    {
+        if (empty($this->createdAt)) {
+            $this->createdAt = new \DateTime();
+        }
+
+        if (empty($this->amount)) {
+            //prix de l'annonce * nombre de jour
+            $this->amount = $this->ad->getPrice() * $this->getDuration();
+        }
+    }
+
+    public function getDuration()
+    {
+        $diff = $this->endDate->diff($this->startDate);
+        return $diff->days;
     }
 }
