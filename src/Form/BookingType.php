@@ -16,7 +16,8 @@ class BookingType extends ApplicationType
         $builder
             ->add('startDate', DateType::class, $this->getConfiguration("Date d'arrivée", 'La date à laquelle vous comptez arriver', ['widget' => 'single_text']))
             ->add('endDate', DateType::class, $this->getConfiguration('Date de départ', 'Date à laquelle vous quittez les lieux', ['widget' => 'single_text']))
-            ->add('comment', TextareaType::class, $this->getConfiguration(false, 'Si vous avez un commentaire, n\'hésitez pas à en faire part'));
+            ->add('comment', TextareaType::class, $this->getConfiguration(false, 'Si vous avez un commentaire, n\'hésitez pas à en faire part', [
+                'required', false]));
     }
 
     public function configureOptions(OptionsResolver $resolver)
