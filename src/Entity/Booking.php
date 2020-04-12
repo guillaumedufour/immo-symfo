@@ -44,7 +44,7 @@ class Booking
     private $endDate;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
@@ -204,7 +204,7 @@ class Booking
         );
 
         $days = array_map(function ($dayTimeStamp) {
-            return new \DateTime('Y-m-d', $dayTimeStamp);
+            return new \DateTime(date('Y-m-d', $dayTimeStamp));
         }, $resultat);
 
         return $days;

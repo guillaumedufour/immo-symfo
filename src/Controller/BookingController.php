@@ -24,7 +24,7 @@ class BookingController extends AbstractController
         $form = $this->createForm(BookingType::class, $booking);
 
         $form->handleRequest($request);
-
+dump($ad->getNotAvailablesDays());
         if ($form->isSubmitted() && $form->isValid()) {
 
             $user = $this->getUser();

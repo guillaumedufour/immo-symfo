@@ -279,7 +279,7 @@ class Ad
             );
 
             $days = array_map(function ($dayTimeStamp) {
-                return new \DateTime(date('Y-m-D'), $dayTimeStamp);
+                return new \DateTime(date('Y-m-d', $dayTimeStamp));
             }, $resultat);
 
             $notAvailableDays = array_merge($notAvailableDays, $days);
