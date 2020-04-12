@@ -3,7 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraint as Assert;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BookingRepository")
@@ -43,7 +44,7 @@ class Booking
     private $endDate;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
      */
     private $createdAt;
 
@@ -165,5 +166,47 @@ class Booking
     {
         $diff = $this->endDate->diff($this->startDate);
         return $diff->days;
+    }
+
+    public function isBookableDates()
+    {
+        // 1 - on doit connaitre les dates impossible pour l'annonce
+        $notAvailableDays = $this->ad->getNotAvailablesDays();
+
+        // 2 - comparer les dates choisies avec les dates impossibles
+        $bookingDays = $this->getDays();
+        $formatDay = function ($day) {
+            return $day->format('Y-m-d');
+        };
+
+        // tableau de chaine de caractères de mes jours
+        $days = array_map($formatDay, $bookingDays);
+        $notAvailable = array_map($formatDay, $notAvailableDays);
+
+        foreach ($days as $day) {
+            if (array_search($day, $notAvailable) !== false) {
+                return false;
+            }
+            return true;
+        }
+    }
+
+    /**
+     * permet de recuperer un tableau des journées qui correspondent a la reservation
+     * @return array tableau d'ojets DateTime
+     */
+    public function getDays()
+    {
+        $resultat = range(
+            $this->startDate->getTimeStamp(),
+            $this->endDate->getTimeStamp(),
+            24 * 60 * 60 // 24h sous la forme de milisecondes
+        );
+
+        $days = array_map(function ($dayTimeStamp) {
+            return new \DateTime('Y-m-d', $dayTimeStamp);
+        }, $resultat);
+
+        return $days;
     }
 }

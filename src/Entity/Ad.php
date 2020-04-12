@@ -47,7 +47,7 @@ class Ad
 
     /**
      * @ORM\Column(type="text")
-     * * @Assert\Length(min=100, minMessage="L'annonce doit faire plus de 100 caractères.")
+     * @Assert\Length(min=100, minMessage="L'annonce doit faire plus de 100 caractères.")
      */
     private $content;
 
@@ -260,5 +260,30 @@ class Ad
         }
 
         return $this;
+    }
+
+    /**
+     * permet d'obtenir un tableau des jours qui ne sont pas disponible pour cette annonce
+     * @return array tableau d'objets DateTime qui representent les jours d'occupation
+     */
+    public function getNotAvailablesDays()
+    {
+        $notAvailableDays = [];
+
+        foreach ($this->bookings as $booking) {
+            //calculer les jours qui se trouvent entre la date d'arrivée et de depart
+
+            $resultat = range($booking->getStartDate()->getTimeStamp(),
+                $booking->getEndDate()->getTimeStamp(),
+                24 * 60 * 60 // 24h sous la forme de milisecondes
+            );
+
+            $days = array_map(function ($dayTimeStamp) {
+                return new \DateTime(date('Y-m-D'), $dayTimeStamp);
+            }, $resultat);
+
+            $notAvailableDays = array_merge($notAvailableDays, $days);
+        }
+        return $notAvailableDays;
     }
 }
