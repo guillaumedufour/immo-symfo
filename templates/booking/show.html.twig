@@ -7,7 +7,7 @@
     {% set author = ad.author %}
 
     <div class="container">
-        <h1>Votre réservation (n°{{ booking.id }})</h1>
+        <h1 class="my-5">Votre réservation (n°{{ booking.id }})</h1>
 
         {% if app.request.query.get('withAlert') %}
             <div class="alert alert-success">
@@ -15,7 +15,7 @@
                 <p>
                     Votre réservation auprès de <strong><a
                                 href="{{ path("user_show",{'slug':author.slug}) }}">{{ author.fullName }}</a></strong>
-                    Pour l'annonce <strong><a href="{{ path("ads_show",{'slug':ad.slug}) }}">{{ ad.title }}</a></strong>
+                    pour l'annonce <strong><a href="{{ path("ads_show",{'slug':ad.slug}) }}">{{ ad.title }}</a></strong>
                     a bien été prise en compte.
                 </p>
             </div>
@@ -36,7 +36,7 @@
                         <dt class="col-md-4">Nombre de nuits</dt>
                         <dd class="col-md-8">{{ booking.duration }}</dd>
                         <dt class="col-md-4">Montant total</dt>
-                        <dd class="col-md-8">{{ booking.amount }} &euro;</dd>
+                        <dd class="col-md-8">{{ booking.amount|number_format(2,',',' ') }} &euro;</dd>
                         <dt class="col-md-4">Commentaire</dt>
                         <dd class="col-md-8">{{ booking.comment | default('Aucun commentaire') }}</dd>
                     </dl>

@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="container">
-        <div class="row align-items-center">
+        <div class="row align-items-center mb-5">
             <div class="col-3 text-center">
                 <img src="{{ user.picture }}" class="avatar mb-3" alt="Avatar de {{ user.fullName }}"/>
                 <br>
@@ -16,14 +16,15 @@
                     <div class="mt-3">
                         <a href="{{ path('account_profile') }}" class="btn btn-primary mr-2 mb-2">Modifier mon
                             profil</a>
-                        <a href="{{ path('account_password') }}" class="btn btn-primary mr-2 mb-2">Modifier mon mot de passe</a>
+                        <a href="{{ path('account_password') }}" class="btn btn-primary mr-2 mb-2">Modifier mon mot de
+                            passe</a>
                     </div>
                 {% endif %}
             </div>
         </div>
         {{ user.description | raw }}
 
-        <hr>
+        <hr aria-hidden="true">
 
 
         {% if user.ads|length > 1 %}
