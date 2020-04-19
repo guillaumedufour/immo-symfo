@@ -15,7 +15,8 @@
                 <p>
                     Votre réservation auprès de <strong><a
                                 href="{{ path("user_show",{'slug':author.slug}) }}">{{ author.fullName }}</a></strong>
-                    Pour l'annonce <strong><a href="{{ path("ads_show",{'slug':ad.slug}) }}">{{ ad.title }}</a></strong> a bien été prise en compte.
+                    Pour l'annonce <strong><a href="{{ path("ads_show",{'slug':ad.slug}) }}">{{ ad.title }}</a></strong>
+                    a bien été prise en compte.
                 </p>
             </div>
 
@@ -37,7 +38,7 @@
                         <dt class="col-md-4">Montant total</dt>
                         <dd class="col-md-8">{{ booking.amount }} &euro;</dd>
                         <dt class="col-md-4">Commentaire</dt>
-                        <dd class="col-md-8">{{ booking.comment }}</dd>
+                        <dd class="col-md-8">{{ booking.comment | default('Aucun commentaire') }}</dd>
                     </dl>
                     <hr>
                     <h2 class="alert alert-heading">Votre hôte</h2>
@@ -57,7 +58,29 @@
                     <a href="{{ path('user_show',{'slug': author.slug}) }}" class="btn btn-primary">Plus d'infos
                         sur {{ author.firstname }}</a>
                 </div>
+
+                <div class="alert alert-light" id="comment">
+                    <h2 class="alert-heading">Votre avis compte ! </h2>
+                    {% if date() > date(booking.endDate) %}
+                        {% set comment = booking.ad.commentFromAuthor(app.user) %}
+
+                        {% if comment is not null %}
+                            <blockquote>
+                                {{ comment.content }}
+                            </blockquote>
+
+                            <strong>note: {% include 'partials/rating.html.twig' with {'rating': comment.rating} %}</strong>
+                        {% else %}
+                            {{ form_start(form) }}
+                            {{ form_widget(form) }}
+                            <button type="submit" class="btn btn-success">Confirmer</button>
+                        {% endif %}
+                    {% else %}
+                        <p>Veuillez attendre de terminer votre réservation pour pouvoir la noter</p>
+                    {% endif %}
+                </div>
             </div>
+
             <div class="col">
                 <div class="alert alert-light">
                     <h2 class="alert-heading">Votre hébergement</h2>

@@ -293,6 +293,10 @@ class Ad
         return $notAvailableDays;
     }
 
+    /**
+     * Give ad's global average
+     * @return float|int
+     */
     public function getAvgRatings()
     {
         /* get ratings sum */
@@ -308,16 +312,27 @@ class Ad
     }
 
     /**
+     * Get Author's comment about this ad
+     * @param User $author
+     * @return mixed|null
+     */
+    public function getCommentFromAuthor(User $author)
+    {
+        foreach ($this->comments as $comment) {
+            if ($comment->getAuthor() === $author) return $comment;
+        }
+        return null;
+    }
+
+    /**
      * @return Collection|Comment[]
      */
-    public
-    function getComments(): Collection
+    public function getComments(): Collection
     {
         return $this->comments;
     }
 
-    public
-    function addComment(Comment $comment): self
+    public function addComment(Comment $comment): self
     {
         if (!$this->comments->contains($comment)) {
             $this->comments[] = $comment;
@@ -327,8 +342,11 @@ class Ad
         return $this;
     }
 
-    public
-    function removeComment(Comment $comment): self
+    /**
+     * @param Comment $comment
+     * @return $this
+     */
+    public function removeComment(Comment $comment): self
     {
         if ($this->comments->contains($comment)) {
             $this->comments->removeElement($comment);
