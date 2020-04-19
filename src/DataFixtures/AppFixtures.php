@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Ad;
 use App\Entity\Booking;
+use App\Entity\Comment;
 use App\Entity\Image;
 use App\Entity\Role;
 use App\Entity\User;
@@ -34,8 +35,8 @@ class AppFixtures extends Fixture
         $adminUser
             ->setFirstname('Guillaume')
             ->setLastname('D.')
-            ->setEmail('guiguisleaze2@gmail.com')
-            ->setHash($this->encoder->encodePassword($adminUser, 'password'))
+            ->setEmail('dufour.g@live.fr')
+            ->setHash($this->encoder->encodePassword($adminUser, 'guillaume'))
             ->setPicture('https://gdlab.fr/img/guillaume.jpg')
             ->setIntroduction($faker->sentence())
             ->setDescription($faker->paragraph(3))
@@ -132,6 +133,17 @@ class AppFixtures extends Fixture
                     ->setComment($comment);
 
                 $manager->persist($booking);
+
+                /* comments management */
+                if (mt_rand(0, 1)) {
+                    $comment = new Comment();
+                    $comment
+                        ->setContent($faker->paragraph())
+                        ->setRating(mt_rand(0, 5))
+                        ->setAuthor($booker)
+                        ->setAd($ad);
+                    $manager->persist($comment);
+                }
             }
 
             $manager->persist($ad);
